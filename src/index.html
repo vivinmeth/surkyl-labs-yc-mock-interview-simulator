@@ -674,7 +674,7 @@ function updateProgress() {
 								<div class="history-meta">
 									<span x-text="attempt.questionsAnswered + ' questions'"></span>
 									<span x-text="formatSeconds(attempt.totalTime)"></span>
-									<span x-show="attempt.metrics" x-text="(attempt.metrics.totalScore || 0) + '/100'"></span>
+									<span x-text="getAttemptScore(attempt)"></span>
 								</div>
 							</div>
 						</div>
@@ -697,7 +697,14 @@ function analyticsApp() {
 	return {
 		open: false,
 		tab: 'current',
-		currentMetrics: attemptMetrics,
+		currentMetrics: {
+			questions: [],
+			totalScore: 0,
+			averageTime: 0,
+			perfectAnswers: 0,
+			quickAnswers: 0,
+			longAnswers: 0
+		},
 		attempts: [],
 		historyStats: {
 			totalAttempts: 0,
@@ -715,7 +722,12 @@ function analyticsApp() {
 		},
 		
 		calculateHistoryStats() {
-			if (this.attempts.length === 0) return;
+			if (this.attempts.length === 0) {
+				this.historyStats.totalAttempts = 0;
+				this.historyStats.passRate = 0;
+				this.historyStats.avgScore = 0;
+				return;
+			}
 			
 			var passed = this.attempts.filter(a => a.passed).length;
 			var totalScore = 0;
@@ -744,6 +756,13 @@ function analyticsApp() {
 			return mins + 'm ' + secs + 's';
 		},
 		
+		getAttemptScore(attempt) {
+			if (attempt.metrics && attempt.metrics.totalScore) {
+				return attempt.metrics.totalScore + '/100';
+			}
+			return 'N/A';
+		},
+		
 		closeModal() {
 			this.open = false;
 			$('#analytics-modal').addClass('hide');
@@ -764,12 +783,15 @@ function showAnalytics() {
 	var modal = document.getElementById('analytics-modal');
 	modal.classList.remove('hide');
 	
-	// Update Alpine.js data
-	if (modal.__x) {
-		modal.__x.$data.open = true;
-		modal.__x.$data.currentMetrics = attemptMetrics;
-		modal.__x.$data.loadHistory();
-	}
+	// Update Alpine.js data - use Alpine.$data for Alpine 3.x
+	setTimeout(function() {
+		if (window.Alpine && modal._x_dataStack) {
+			var data = modal._x_dataStack[0];
+			data.open = true;
+			data.currentMetrics = attemptMetrics;
+			data.loadHistory();
+		}
+	}, 50);
 }
 </script>
 
