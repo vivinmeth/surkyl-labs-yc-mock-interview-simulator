@@ -18,7 +18,7 @@ YC Interview Simulator helps founders prepare for their Y Combinator interviews 
 
 ## Usage
 
-1. Open `index.html` in your browser
+1. Open `src/index.html` in your browser
 2. Questions appear randomly - answer each one concisely
 3. Press **Enter** to move to the next question
 4. Press **Space** to restart the timer if needed
@@ -32,13 +32,20 @@ YC Interview Simulator helps founders prepare for their Y Combinator interviews 
 | `Enter` | Next question |
 | `Space` | Restart timer |
 
-## Files
+## Project Structure
 
-- `index.html` - Main application
-- `style.QYOtYxGh.css` - Dark theme styling
-- `data.QYOtYxGh.js` - Question and tip data
-- `functions.QYOtYxGh.js` - Application logic
-- `pg.jpg` - Paul Graham image (shown when time expires)
+```
+src/
+├── index.html                              # Main application
+├── assets/
+│   ├── images/
+│   │   └── pg.jpg                          # Paul Graham image
+│   ├── scripts/
+│   │   ├── data.QYOtYxGh.js               # Question and tip data
+│   │   └── functions.QYOtYxGh.js          # Application logic
+│   └── styles/
+│       └── style.QYOtYxGh.css             # Dark theme styling
+```
 
 ## Credits
 
