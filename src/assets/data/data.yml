@@ -1,179 +1,203 @@
-# YC Interview Simulator Data
-# Easy to edit - just add questions or tips to the lists below
-# Questions will be randomized automatically
-
 questions:
+
   # Product & Idea
   - What are you working on?
   - So what are you working on?
   - Do you have a demo?
+  - Show me the product.
+  - How does this actually work?
+  - Walk me through a typical user flow.
+  - Why does this need to exist?
+  - Why hasn’t someone built this before?
+  - What changed recently that makes this possible now?
   - Where is the rocket science here?
-  - How does your product work in more detail?
+  - What’s technically hard about what you're doing?
+  - What did you build that others couldn’t?
+  - What’s your tech insight?
   - How is your product different?
-  - What are you going to do next?
+  - What can you do that competitors can’t?
   - What's new about what you make?
-  - What, exactly, makes you different from existing options?
   - What part of your project are you going to build first?
-  - What are you going to build?
-  - What is the next step with the product evolution?
-  - What have you learned so far from working on your product?
-  - What have you learned so far from working on this idea?
-  - How is your solution better?
-  - How much better is your solution?
-  - Have you considered some twist on your idea?
-  
+  - What is the next step in the product evolution?
+  - How much of what you’re building is AI?
+  - What’s your unfair advantage?
+  - What have you learned so far from working on this?
+  - How much better is your solution than existing ones?
+  - Why now?
+  - Have you considered some variation of your idea?
+  - Could this be a feature of a bigger product?
+  - What’s the single most important feature?
+  - What did you cut out of the product?
+  - What do early users care about most?
+
   # Users & Customers
   - Who needs what you're making?
-  - Who would use your product?
   - Who is your user?
-  - How do you know customers need what you're making?
+  - Who is your *actual* user?
+  - Who buys this vs who uses it?
   - How do you know people want this?
-  - How do users know they need this?
-  - What do you understand about your users?
-  - What do you know about these users that no one else knows?
-  - How many users do you have?
-  - How many do you have now?
-  - How many more will you have in 3 months?
-  - How many currently active users?
-  - How many users have ever engaged?
-  - How many users are paying?
-  - How many people are in your target market?
-  - How many of these users are there?
-  - What are the top things your users want?
-  - What has surprised you about user behavior?
-  - What are your users doing now?
+  - How do you know customers need this?
   - What problem are you helping them with?
-  - Why is this a problem for them?
-  - What do they use to solve that problem right now?
-  - No, what do they really use to solve that problem right now?
-  - What do these users currently pay to have this problem solved?
-  - What do they like about this solution?
-  - What do they not like about this solution?
-  - What do they wish that solution could do for them?
-  - Would they be willing to pay more for something better?
-  - Why would they switch to your solution?
-  - Why are these users good users to try to solve problems for?
-  - What other kinds of users could you go after once you get all these users using your software?
-  - How much time and money do users in your target market waste before switching to your product/service?
-  
+  - Why is this a big problem?
+  - What do they do now to solve it?
+  - What do they *really* do now?
+  - What does your user average day look like?
+  - What specific workflows break for them?
+  - How many users do you have?
+  - How many active users?
+  - How many paying users?
+  - How many signed up?
+  - How many used the product in the last week?
+  - How many will you have in 3 months?
+  - What’s your ideal customer profile?
+  - What do users wish current tools could do?
+  - What do users dislike about current solutions?
+  - Why would they switch?
+  - What is the moment users realize they need your product?
+  - What have you learned from talking to users?
+  - What surprised you about user behavior?
+  - What objections do users have?
+  - How much time/money do they waste before using your product?
+  - What % of your users are retained month-to-month?
+  - Who is your smallest viable segment?
+  - Who is the power user?
+  - Are your users technical or non-technical?
+  - What are your users doing with the product that you didn’t expect?
+
   # Growth & Traction
   - What is your user growth rate?
-  - What is your growth like?
-  - How will you get users?
-  - How will you get more?
-  - How did you get them?
-  - Where do new users come from?
-  - How will users find out about you?
-  - How will customers and/or users find out about you?
-  - What makes new users try you?
-  - What makes new users reluctant to try you?
-  - Why do the reluctant users hold back?
-  - What resistance will they have to trying you and how will you overcome it?
-  - How will you overcome that resistance?
-  - What's the conversion rate?
-  - Acquisition funnel conversion rate?
+  - What's your current traction?
+  - How fast are you growing?
   - How will you grow?
-  - What is your distribution strategy?
-  - How are you meeting customers?
-  - How are you understanding customer needs?
-  
+  - How did your early users find you?
+  - How do you get users?
+  - How are you getting more?
+  - What channels work best?
+  - What channels failed?
+  - What is your retention?
+  - What makes new users try you?
+  - Why do some users churn?
+  - Why are users hesitant?
+  - What objections do they have, and how do you overcome them?
+  - What’s your conversion rate?
+  - Acquisition funnel conversion rate?
+  - What’s your activation metric?
+  - What % of signups actually do X within 1 day?
+  - How often do people come back?
+  - What’s your distribution strategy?
+  - What growth loops exist in your product?
+  - Do you have virality? If yes, what’s the coefficient?
+  - What do successful users do differently?
+  - How are you measuring success?
+
   # Business Model & Revenue
   - How will you make money?
-  - How much money could you make per year?
-  - Total revenue?
-  - How much does customer acquisition cost?
-  - Customer acquisition cost?
-  - Total costs, fixed and marginal?
+  - How do you know people will pay for this?
+  - Who pays you?
+  - What’s your pricing?
+  - What is customer acquisition cost?
+  - What is lifetime value?
   - What is your burn rate?
-  - How long can you go before funding?
-  - Have you raised funding?
-  - Who is going to be your first paying customer?
+  - What are your margins?
+  - Are you profitable?
+  - When will you be profitable?
+  - How long can you survive without new funding?
+  - How much capital do you need?
+  - What is the business model long-term?
+  - What is your first paid offering?
+  - What is your total revenue potential?
+  - How big can this be?
   - Who was your first paying customer?
-  
+  - What will your revenue be in 3 months? 12 months?
+
   # Market & Competition
   - How big an opportunity is there?
   - How many $B is the market?
-  - How fast is the market growing?
-  - What are some trends in your target market, and related markets?
+  - How fast is this market growing?
+  - Why is this market interesting?
+  - What trends support your idea?
   - Who are your competitors?
   - Who might become competitors?
-  - How many users do your competitors have?
-  - How much are your competitors making?
+  - Who do users compare you to?
   - What competition do you fear most?
-  - Which competition do you fear most?
-  - Why isn't someone already doing this?
-  - Will this company be easy to copy?
-  
+  - Why are you better than them?
+  - Why hasn’t someone won this market already?
+  - Why isn’t a big company doing this?
+  - What stops Google/Amazon/Meta from copying you?
+  - What would you do if a large competitor cloned you?
+  - How will you win?
+
   # Team
-  - How did your team meet?
-  - Why did your team get together?
-  - Who in your team does what?
-  - Who is "the boss"?
-  - How do we know your team will stick together?
-  - Will your team stick at this?
-  - What else have you created together?
-  - Who would you hire or how would you add to your team?
-  - Who would be your next hire?
+  - Who are the founders?
+  - What is your background?
   - What domain expertise do you have?
+  - Why are you the right team for this?
   - What systems have you hacked?
-  - Tell us about a tough problem you solved?
-  - In what ways are you resourceful?
-  - What's an impressive thing you have done?
-  - Tell us something surprising you have done?
-  - What is something surprising you have done?
-  - Tell us something surprising that has happened.
-  - What's the funniest thing that has happened to you?
-  - What's the worst thing that has happened?
-  - What's the biggest mistake you have made?
-  - Are you open to changing your idea?
-  - Why are you uniquely qualified to work on this?
-  - Will these founders develop into "forces of nature"?
-  
+  - What’s the hardest problem you solved recently?
+  - How do you handle disagreements?
+  - Who would you hire first?
+  - What key roles do you need in the next 6–12 months?
+  - What do you personally struggle with?
+  - How fast can you build?
+  - Will you stick at this for 10 years?
+  - Show me something impressive you built before.
+  - What's the most surprising thing you’ve accomplished?
+  - Are you open to changing the idea if needed?
+
   # Vision & Strategy
   - What do you understand that others don't?
-  - What do you know about this space/product others don't know?
-  - What are the key things about your field that outsiders don't understand?
-  - Why will you succeed?
-  - Why will you succeed over others?
-  - What problems/hurdles are you anticipating?
-  - What obstacles will you face and how will you overcome them?
-  - What problems and hurdles are you anticipating? How will you overcome them?
-  - Six months from now, what's going to be your biggest problem?
-  - What keeps you up at night?
-  - If your startup succeeds, what additional areas might you be able to expand into?
-  - Why did you choose this idea?
-  - Why did you pick this idea to work on?
-  - Why do you want to dedicate your life to working on this?
-  - Does this company have a clear and important mission?
-  - Will this company build something lots of people really love?
+  - What’s your long-term vision?
   - How does this become a billion-dollar company?
-  
+  - What’s the 10-year version of this?
+  - What are the biggest risks?
+  - What obstacles will you face?
+  - How will you overcome them?
+  - What keeps you up at night?
+  - If you succeed, what will be your next product?
+  - Why will this company survive long-term?
+  - Why this idea?
+  - Why now?
+  - What's your secret insight?
+  - Who will you be in 10 years?
+
   # YC Specific
-  - What will you do if we don't fund you?
-  - Would you relocate to Silicon Valley?
-  - Would you relocate to Silicon Valley during YC?
+  - What will you do if we don’t fund you?
+  - Why do you want YC?
+  - Why should we fund you?
+  - What will you do in the next 30 days?
+  - Would you relocate to the US for YC?
   - Will you reincorporate as a US company?
-  - Someone just showed us an idea like this right before you guys. I don't like it. What else do you have?
-  - Growth rates of all of the above?
+  - Someone pitched us something like this earlier — why are you better?
+  - If we gave you $500k today, what would you do next?
+  - How much are you raising?
+  - How will you use the money?
+  - What’s the biggest thing you want from YC?
 
 tips:
-  - Try to have quick and concise answers.
-  - Try to answer in 2 to 3 sentences.
-  - Answer like you would in a conversation, this is not a presentation.
-  - When talking to PG and the other YC partners, be substantive, and get straight to the point.
-  - DO NOT BEAT AROUND THE BUSH. Do not hem and haw. "Uhm"s and "uh"s don't lend an aura of intelligence.
-  - Use precise and concise language. You aren't pitching a VC that will ask you what your "secret sauce" is.
-  - They talk quickly. Try to match their tempo (as you should when talking to anyone).
-  - Know your numbers cold. Users, growth rate, revenue, costs - have them memorized.
-  - If you don't know an answer, say so quickly and move on. Don't waste time making things up.
-  - Practice with a co-founder. YC interviews are conversations, not monologues.
-  - Focus on what you've built and learned, not what you plan to build.
-  - Show passion and deep knowledge about your problem space.
-  - Be honest about your weaknesses - they'll respect that more than BS.
-  - Have specific examples ready. "We talked to 50 customers" is better than "we did customer research".
-  - Quantify everything. "10x faster" is better than "much faster".
-  - Know your competition deeply. Why will you win?
-  - Show that you understand why this is hard and why you can do it anyway.
-  - Don't oversell. Confidence is good, delusion is bad.
-  - If asked about something you haven't thought about, acknowledge it and think out loud.
-  - Your founding story matters. Why this team? Why this problem? Why now?
+  - Keep answers to 10–25 seconds max.
+  - Answer the exact question asked; no detours.
+  - Speak in short, concrete sentences.
+  - "Use numbers wherever possible: users, retention, revenue, timelines."
+  - YC hates buzzwords — be extremely literal.
+  - Always start with the direct answer, then add 1 sentence of context.
+  - Avoid hypotheticals unless the question asks for it.
+  - 'If you don’t know the answer, say: “I don’t know yet — here’s what I’d check.”'
+  - Do not pitch — have a conversation.
+  - Avoid grand visions unless asked directly.
+  - Focus on what you've built, not what you plan to build.
+  - 'Highlight speed: how fast you built, how fast you learn.'
+  - Be honest, even about weaknesses or small numbers.
+  - Stay calm even if they interrupt — interruptions are normal.
+  - Never argue; clarify instead.
+  - Keep energy high and friendly.
+  - If they push on something, it means they care — lean in.
+  - Don’t memorize answers; memorize *facts*.
+  - Practice answering while being interrupted.
+  - Assume follow-up questions will be sharper versions of your first answer.
+  - Smile at the beginning and end; confidence matters.
+  - 'Know: TAM, competitors, pricing, users, activation, retention, churn.'
+  - Know exactly what you built and how it works technically.
+  - YC loves founders who deeply understand their user.
+  - Have 3 real user anecdotes ready.
+  - Don’t try to sound smart — try to sound clear.
+  - 'Above all: be yourself, be fast, be precise, be honest.'
