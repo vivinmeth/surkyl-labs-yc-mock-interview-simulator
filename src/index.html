@@ -11,11 +11,23 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 <script type="text/javascript" src="assets/scripts/functions.NWPDX9Fh.js"></script>
 <script type="text/javascript">
-var timer = 20;
+// Timer variables
+var timer = 30;
+var currentQuestionTime = 30;
+var masterTimer = 600; // 10 minutes in seconds
+var masterTimerInterval = null;
+
+// Question tracking
 var totalQuestions = 0;
 var answeredQuestions = 0;
 var q = [];
 var tips = [];
+var isFirstQuestion = true;
+var interviewFailed = false;
+var interviewStartTime = null;
+
+// First question constant
+var FIRST_QUESTION = "What are you working on?";
 
 // Load data from YAML file
 async function loadData() {
@@ -27,18 +39,34 @@ async function loadData() {
 		q = data.questions || [];
 		tips = data.tips || [];
 		
+		// Remove "What are you working on?" and similar variations from the pool
+		q = q.filter(function(question) {
+			var normalized = question.toLowerCase().trim();
+			return normalized !== "what are you working on?" && 
+				   normalized !== "so what are you working on?" &&
+				   normalized !== "what are you working on";
+		});
+		
 		// Randomise Questions & Tips
 		q.sort(function() {return 0.5 - Math.random()});
 		tips.sort(function() {return 0.5 - Math.random()});
+		
+		// Prepend the first question (always the same)
+		q.unshift(FIRST_QUESTION);
 		
 		totalQuestions = q.length;
 		
 		// End Questions marker
 		q.push('done');
 		
+		// Load attempt history
+		loadAttemptHistory();
+		
 		// Initialize the app
+		interviewStartTime = Date.now();
 		next_q();
 		timer_tick();
+		start_master_timer();
 		display_tip();
 		updateProgress();
 		
@@ -51,21 +79,132 @@ async function loadData() {
 	}
 }
 
+// Master timer (10 minutes)
+function start_master_timer() {
+	update_master_timer_display();
+	masterTimerInterval = setInterval(function() {
+		if (interviewFailed) return;
+		
+		masterTimer--;
+		update_master_timer_display();
+		
+		if (masterTimer <= 0) {
+			clearInterval(masterTimerInterval);
+			end_interview(true); // Time's up - but they completed the interview time
+		}
+	}, 1000);
+}
+
+function update_master_timer_display() {
+	var minutes = Math.floor(masterTimer / 60);
+	var seconds = masterTimer % 60;
+	var display = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+	$('#master-timer').text(display);
+	
+	// Warning states for master timer
+	if (masterTimer <= 60) {
+		$('#master-timer').addClass('timer-critical');
+	} else if (masterTimer <= 120) {
+		$('#master-timer').addClass('timer-low');
+	}
+}
+
+function end_interview(success) {
+	if (interviewFailed) return;
+	
+	interviewFailed = true;
+	clearInterval(masterTimerInterval);
+	
+	var attempt = {
+		timestamp: interviewStartTime,
+		questionsAnswered: answeredQuestions,
+		totalTime: 600 - masterTimer,
+		passed: success,
+		failReason: success ? null : 'timeout'
+	};
+	
+	saveAttempt(attempt);
+	
+	if (success) {
+		// Show success screen
+		$('#question-container').addClass('hide');
+		$('#timer-container').addClass('hide');
+		$('.pg').addClass('hide');
+		$('.tip-container').addClass('hide');
+		$('.controls').addClass('hide');
+		$('#end').removeClass('hide');
+		updateEndScreen(attempt);
+	} else {
+		// Show failure screen
+		show_failure_screen(attempt);
+	}
+}
+
+function show_failure_screen(attempt) {
+	$('#question-container').addClass('hide');
+	$('#timer-container').addClass('hide');
+	$('.pg').addClass('hide');
+	$('.tip-container').addClass('hide');
+	$('.controls').addClass('hide');
+	
+	$('#fail-questions-answered').text(attempt.questionsAnswered);
+	$('#fail-time-elapsed').text(formatTime(attempt.totalTime));
+	
+	$('#failed').removeClass('hide');
+}
+
+function updateEndScreen(attempt) {
+	$('#end-questions-answered').text(attempt.questionsAnswered);
+	$('#end-time-elapsed').text(formatTime(attempt.totalTime));
+}
+
+function formatTime(seconds) {
+	var mins = Math.floor(seconds / 60);
+	var secs = seconds % 60;
+	return mins + 'm ' + secs + 's';
+}
+
+// LocalStorage functions
+function saveAttempt(attempt) {
+	var attempts = JSON.parse(localStorage.getItem('yc_interview_attempts') || '[]');
+	attempts.push(attempt);
+	localStorage.setItem('yc_interview_attempts', JSON.stringify(attempts));
+	updateAttemptCounter();
+}
+
+function loadAttemptHistory() {
+	updateAttemptCounter();
+}
+
+function updateAttemptCounter() {
+	var attempts = JSON.parse(localStorage.getItem('yc_interview_attempts') || '[]');
+	var totalAttempts = attempts.length;
+	var passedAttempts = attempts.filter(function(a) { return a.passed; }).length;
+	
+	$('#attempt-count').text('Attempt #' + (totalAttempts + 1));
+	if (totalAttempts > 0) {
+		$('#attempt-stats').text(passedAttempts + '/' + totalAttempts + ' passed').removeClass('hide');
+	}
+}
+
 $(document).ready(function(){
 	loadData();
 });
 
 $(document).keypress(function(e) {
+	if (interviewFailed) return;
+	
 	switch (e.which)
 	{
 		case 13:
 			// Next Question - Return (13)
-			if (q.length > 0) next_q();
+			if (q.length > 0 && !interviewFailed) next_q();
 			break;
 
 		case 32:
-			// Restart Timer - Space (32)
-			timer_restart();
+			// Next Question - Space (32)
+			e.preventDefault();
+			if (q.length > 0 && !interviewFailed) next_q();
 			break;
 
 		case 110:
@@ -74,6 +213,27 @@ $(document).keypress(function(e) {
 			break;
 	}
 });
+
+// Handle Escape key for canceling attempt
+$(document).keydown(function(e) {
+	if (e.which === 27 && !interviewFailed) {
+		// ESC key - cancel attempt
+		cancel_attempt();
+	}
+});
+
+function cancel_attempt() {
+	interviewFailed = true;
+	clearInterval(masterTimerInterval);
+	
+	$('#question-container').addClass('hide');
+	$('#timer-container').addClass('hide');
+	$('.pg').addClass('hide');
+	$('.tip-container').addClass('hide');
+	$('.controls').addClass('hide');
+	
+	$('#canceled').removeClass('hide');
+}
 
 function updateProgress() {
 	var progress = (answeredQuestions / totalQuestions) * 100;
@@ -103,6 +263,19 @@ function updateProgress() {
 		<img src="https://assets.muesync.com/common/images/labs-logo.png" alt="Surkyl Labs"  width="32" height="32"/>
 		<span>YC Interview Simulator</span>
 	</div>
+	<div class="header-center">
+		<div class="master-timer-container">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+				<circle cx="12" cy="12" r="10"/>
+				<polyline points="12 6 12 12 16 14"/>
+			</svg>
+			<span id="master-timer">10:00</span>
+		</div>
+		<div class="attempt-info">
+			<span id="attempt-count">Attempt #1</span>
+			<span id="attempt-stats" class="hide"></span>
+		</div>
+	</div>
 	<a href="https://surkyl.com" target="_blank" rel="noopener" class="header-badge">
 		by Surkyl Labs
 		<img src="https://assets.muesync.com/common/images/labs-logo.png" alt="Surkyl Labs"  width="18" height="18"/>
@@ -118,23 +291,87 @@ function updateProgress() {
 <!-- Main Content -->
 <main class="main-content">
 	
-	<!-- Message to be Displayed when out of questions -->
+	<!-- Message to be Displayed when out of questions or time's up (Success) -->
 	<div id="end" class="hide">
 		<div class="end-content">
-			<div class="end-icon">
+			<div class="end-icon success">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
 					<polyline points="22 4 12 14.01 9 11.01"/>
 				</svg>
 			</div>
-			<h1>Interview Complete</h1>
-			<p>You've practiced all the questions. You're one step closer to crushing your YC interview!</p>
+			<h1>Congratulations!</h1>
+			<div class="result-stats">
+				<div class="stat">
+					<span class="stat-value" id="end-questions-answered">0</span>
+					<span class="stat-label">Questions Answered</span>
+				</div>
+				<div class="stat">
+					<span class="stat-value" id="end-time-elapsed">0m 0s</span>
+					<span class="stat-label">Time Elapsed</span>
+				</div>
+			</div>
+			<p class="success-message">You successfully completed your mock interview! You answered every question within the time limit. Best of luck with your actual YC interview - you've got this!</p>
+			<div class="success-actions">
+				<button class="btn-restart" onclick="location.reload()">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<polyline points="23 4 23 10 17 10"/>
+						<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+					</svg>
+					Start New Attempt
+				</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Interview Failed Screen -->
+	<div id="failed" class="hide">
+		<div class="end-content">
+			<div class="end-icon failed">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<circle cx="12" cy="12" r="10"/>
+					<line x1="15" y1="9" x2="9" y2="15"/>
+					<line x1="9" y1="9" x2="15" y2="15"/>
+				</svg>
+			</div>
+			<h1>Interview Failed</h1>
+			<div class="result-stats">
+				<div class="stat">
+					<span class="stat-value" id="fail-questions-answered">0</span>
+					<span class="stat-label">Questions Answered</span>
+				</div>
+				<div class="stat">
+					<span class="stat-value" id="fail-time-elapsed">0m 0s</span>
+					<span class="stat-label">Time Elapsed</span>
+				</div>
+			</div>
+			<p>You ran out of time on a question. In a real YC interview, you need to answer quickly and concisely. Practice more!</p>
 			<button class="btn-restart" onclick="location.reload()">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<polyline points="23 4 23 10 17 10"/>
 					<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
 				</svg>
-				Start Over
+				Try Again
+			</button>
+		</div>
+	</div>
+	
+	<!-- Interview Canceled Screen -->
+	<div id="canceled" class="hide">
+		<div class="end-content">
+			<div class="end-icon canceled">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M18 6L6 18M6 6l12 12"/>
+				</svg>
+			</div>
+			<h1>Attempt Canceled</h1>
+			<p class="joke-text">Do not worry, brighter people than you have tried and failed. Come back and try again any time!</p>
+			<button class="btn-restart" onclick="location.reload()">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<polyline points="23 4 23 10 17 10"/>
+					<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+				</svg>
+				Try Again
 			</button>
 		</div>
 	</div>
@@ -194,12 +431,10 @@ function updateProgress() {
 <!-- Keyboard Controls -->
 <div class="controls">
 	<div class="control-item">
-		<kbd>Space</kbd>
-		<span>Restart timer</span>
-	</div>
-	<div class="control-item">
 		<kbd>Enter</kbd>
-		<span>Next question</span>
+		<span>or</span>
+		<kbd>Space</kbd>
+		<span>Answer & next question</span>
 	</div>
 </div>
 
