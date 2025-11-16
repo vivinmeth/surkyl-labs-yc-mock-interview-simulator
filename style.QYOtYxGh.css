@@ -549,12 +549,60 @@ kbd {
 	height: 46px;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+	padding: 0 24px;
 	background: var(--color-bg-secondary);
 	border-top: 1px solid var(--color-border);
 	color: var(--color-text-muted);
-	font-size: 12px;
+	font-size: 11px;
 	z-index: 50;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+	flex: 1;
+}
+
+.footer-left {
+	text-align: left;
+}
+
+.footer-center {
+	text-align: center;
+}
+
+.footer-right {
+	text-align: right;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+}
+
+.footer a {
+	color: var(--color-text-gray);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.footer a:hover {
+	color: var(--color-muesync);
+}
+
+.app-name {
+	color: var(--color-text-gray);
+	font-weight: 500;
+}
+
+.version-tag {
+	background: var(--color-bg-tertiary);
+	color: var(--color-primary);
+	padding: 2px 8px;
+	border-radius: 10px;
+	font-size: 10px;
+	font-weight: 600;
+	border: 1px solid rgba(244, 116, 0, 0.3);
 }
 
 /* Responsive */
